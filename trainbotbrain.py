@@ -1,28 +1,29 @@
 #!/usr/bin/env python
 
-import irc.client
 import irc.bot
-import sys
 import re
 import mechanize
 import time
-from threading import Thread
 import urllib
 import asciis
 
-class trainbot(irc.bot.SingleServerIRCBot):
-    def on_welcome(self, c, event):
-        print c.nickname , "is now online"
+channel = "#cslounge-traaaaains"
+
+class trainbot(object):
+    def __init__(self):
+        reload(asciis)
         self.lastdraw = 0
-        c.join("#cslounge-trains")
 
     def dontflood(self):
-        #print (time.time() - self.lastdraw)
         if time.time() - self.lastdraw < 1:
             time.sleep(1)
-            print "zzzz"
+            #print "zzzz"
         else:
             self.lastdraw = time.time()
+
+    def on_pubmsg(self, c, event): pass
+
+    def on_privmsg(self, c, event): pass
 
 
 class tra1nbot(trainbot):
@@ -167,29 +168,3 @@ class tra3nbot(trainbot):
             message = event.arguments[0].split(" ")
             for line in asciis.asciis[int(message[0])][2]:
                 c.privmsg(message[1], line)
-
-
-class run_trainbot(Thread):
-    def __init__(self, botclass, server, port, nick):
-        self.botclass = botclass
-        self.serverspec = [(server, port)]
-        self.nick = nick
-        Thread.__init__(self)
-        
-    def run(self):
-        self.bot = self.botclass(self.serverspec, self.nick, self.nick)
-        self.bot.start()
-        
-    def stop_bot(self):
-        self.bot.disconnect()
-        self.bot.connection.close()
-
-botnicks = ["tra1n", "tra2n", "tra3n"]
-botclasses = [tra1nbot, tra2nbot, tra3nbot]
-for i in range(0, len(botnicks)):
-    bot = run_trainbot(botclasses[i], "irc.freenode.net", 6667, botnicks[i])
-    bot.daemon = True
-    bot.start()
-
-while True:
-    time.sleep(1000)
