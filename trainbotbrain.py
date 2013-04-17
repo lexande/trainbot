@@ -7,8 +7,6 @@ import time
 import urllib
 import asciis
 
-channel = "#cslounge-traaaaains"
-
 class trainbot(object):
     def __init__(self):
         reload(asciis)
