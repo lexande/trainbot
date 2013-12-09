@@ -5,6 +5,7 @@ import sys
 import time
 from threading import Thread
 import trainbotbrain
+from trainbotpass import password
 
 channel = sys.argv[1]
 
@@ -18,6 +19,7 @@ class reloader(irc.bot.SingleServerIRCBot):
  
     def on_welcome(self, c, event):
         print c.nickname , "is now online"
+        c.privmsg("nickserv", "identify " + password)
         c.join(channel)
 
     def on_pubmsg(self, c, event):
