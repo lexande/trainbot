@@ -166,3 +166,22 @@ class tra3nbot(trainbot):
             message = event.arguments[0].split(" ")
             for line in asciis.asciis[int(message[0])][2]:
                 c.privmsg(message[1], line)
+
+class shuttlebusbot(trainbot):
+    def on_pubmsg(self, c, event):
+        for i in range(0, len(asciis.asciipatterns)):
+            if re.search(asciis.asciipatterns[i], event.arguments[0]):
+                self.dontflood()
+                if len(asciis.asciis[i][1]) > 0:
+                    c.privmsg(event.target, "Trainbot is offline for maintenance.")
+                else:
+                    for line in asciis.asciis[i][0]:
+                        c.privmsg(event.target, line)
+                return
+        if re.match("!megabus", event.arguments[0]):
+            self.dontflood()
+            c.privmsg(event.target, "Trainbot is offline for maintenance.")
+        if re.match("!amtrak", event.arguments[0]):
+            self.dontflood()
+            c.privmsg(event.target, "Trainbot is offline for maintenance.")
+
