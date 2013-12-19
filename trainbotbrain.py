@@ -6,6 +6,7 @@ import mechanize
 import time
 import urllib
 import asciis
+from trainbotpass import ownernick
 
 class trainbot(object):
     def __init__(self):
@@ -143,6 +144,10 @@ class tra1nbot(trainbot):
                     c.privmsg(event.target, line)
                 c.privmsg("tra2n", " ".join([str(i), event.target]))
                 return
+        if re.match('Good (.*), programs.', event.arguments[0]) and event.source.nick == ownernick:
+            self.dontflood()
+            match = re.match('Good (.*), programs.', event.arguments[0])
+            c.privmsg(event.target, 'Good ' + match.group(1) + ', kernel.')
         if re.match("!megabus", event.arguments[0]):
             self.dontflood()
             self.mbsearch(c, event.source.nick, event.target, event.arguments[0])
