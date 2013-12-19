@@ -5,7 +5,7 @@ import sys
 import time
 from threading import Thread
 import trainbotbrain
-from trainbotpass import password
+from trainbotpass import password, ownernick
 
 channel = sys.argv[1]
 
@@ -30,7 +30,7 @@ class reloader(irc.bot.SingleServerIRCBot):
                 self.errorhandle(thisbroke, c)
 
     def on_privmsg(self, c, event):
-        if event.source.nick == "lexande" and event.arguments[0] == "lern":
+        if event.source.nick == ownernick and event.arguments[0] == "lern":
             try:
                 reload(trainbotbrain)
                 self.brain = getattr(trainbotbrain, self.botclassname)()
@@ -44,7 +44,7 @@ class reloader(irc.bot.SingleServerIRCBot):
                 self.errorhandle(thisbroke, c)
 
     def errorhandle(self, thisbroke, c):
-        c.privmsg("lexande", "halp")
+        c.privmsg(ownernick, "halp")
         print ("%s had an error of type %s: %s" % (self.nick, type(thisbroke), thisbroke))
         self.broken = True
 
