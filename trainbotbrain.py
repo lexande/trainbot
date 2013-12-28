@@ -154,23 +154,36 @@ class tra1nbot(trainbot):
         if re.match("!amtrak", event.arguments[0]):
             self.dontflood()
             self.amsearch(c, event.source.nick, event.target, event.arguments[0])
+    def on_privmsg(self, c, event):
+        message = event.arguments[0].split(" ")
+        print message[0]
+        if event.source.nick == ownernick and message[0] == "Join":
+            c.join(message[1])
+            c.privmsg("tra2n", event.arguments[0])
 
 
 class tra2nbot(trainbot):
     def on_privmsg(self, c, event):
+        message = event.arguments[0].split(" ")
+        print message[0]
         if event.source.nick == "tra1n":
-            message = event.arguments[0].split(" ")
-            for line in asciis.asciis[int(message[0])][1]:
-                c.privmsg(message[1], line)
+            if message[0] == "Join":
+                c.join(message[1])
+            else:
+                for line in asciis.asciis[int(message[0])][1]:
+                    c.privmsg(message[1], line)
             c.privmsg("tra3n", event.arguments[0])
-
 
 class tra3nbot(trainbot):
     def on_privmsg(self, c, event):
+        message = event.arguments[0].split(" ")
         if event.source.nick == "tra2n":
-            message = event.arguments[0].split(" ")
-            for line in asciis.asciis[int(message[0])][2]:
-                c.privmsg(message[1], line)
+            if message[0] == "Join":
+                c.join(message[1])
+            else:
+                for line in asciis.asciis[int(message[0])][2]:
+                    c.privmsg(message[1], line)
+
 
 class shuttlebusbot(trainbot):
     def on_pubmsg(self, c, event):
