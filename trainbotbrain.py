@@ -16,7 +16,6 @@ class trainbot(object):
     def dontflood(self):
         if time.time() - self.lastdraw < 1:
             time.sleep(1)
-            #print "zzzz"
         else:
             self.lastdraw = time.time()
 
@@ -156,20 +155,26 @@ class tra1nbot(trainbot):
             self.amsearch(c, event.source.nick, event.target, event.arguments[0])
     def on_privmsg(self, c, event):
         message = event.arguments[0].split(" ")
-        print message[0]
+#	print message[0]
         if event.source.nick == ownernick and message[0] == "Join":
             c.join(message[1])
             c.privmsg("tra2n", event.arguments[0])
+        elif event.source.nick == ownernick and message[0] == "Part":
+            c.part(message[1])                    
+            c.privmsg("tra2n", event.arguments[0])
+
 
 
 class tra2nbot(trainbot):
     def on_privmsg(self, c, event):
         message = event.arguments[0].split(" ")
-        print message[0]
+#	print message[0]
         if event.source.nick == "tra1n":
-            if message[0] == "Join":
-                c.join(message[1])
-            else:
+	    if message[0] == "Join":
+	        c.join(message[1])
+            elif message[0] == "Part":
+                c.part(message[1])
+	    else:
                 for line in asciis.asciis[int(message[0])][1]:
                     c.privmsg(message[1], line)
             c.privmsg("tra3n", event.arguments[0])
@@ -180,8 +185,10 @@ class tra3nbot(trainbot):
         if event.source.nick == "tra2n":
             if message[0] == "Join":
                 c.join(message[1])
+            elif message[0] == "Part":
+                c.part(message[1]) 
             else:
-                for line in asciis.asciis[int(message[0])][2]:
+        	for line in asciis.asciis[int(message[0])][2]:
                     c.privmsg(message[1], line)
 
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 asciipatterns = ["CALTRAAAAA+IN", "TRAAAAA+IN", "TERRAAAAA+IN", "PLAAAAA+NE", "BOAAAAA+T", 
-"BUUUUU+S", "BRAAAAA+IN", "SPAAAAA+IN", "YO","BIIIII+KE","CAAAAA+R","MAAAAA+INE","PLANTAAAAA+IN","PARAAAAA+DE"]
+"BUUUUU+S", "BRAAAAA+IN", "SPAAAAA+IN", "YO","BIIIII+KE","CAAAAA+R","MAAAAA+INE","PLANTAAAAA+IN",
+"PARAAAAA+DE","DUUUUU+CK"]
 
 asciis=[
 [['           __________________________________________', 
@@ -89,11 +90,11 @@ asciis=[
 '''                    \    , --'"============""""-'"''', 
 '''                     "-'" |  |================/''']], 
 
-[['''  ., _., , ._, ., , , , ''', 
-''' {         ', .'`''', 
-'''  ``}      : ''', 
-'''    (      , ' ''', 
-'''    |      /'''], 
+[['''  .,_.,,._,.,,,, ''',
+''' {         ',.'` ''',
+'''  ``}      : ''',
+'''    (      ,' ''',
+'''    |      /'''],
 ['''    `\____/'''], []], 
 
 [["YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"], 
@@ -143,6 +144,14 @@ asciis=[
    ['   .---{_._._._._._._._._}---.\'p\'`    )     / \     /___|    /     *           ',
     '  (   `"""""""""""""""""""`   ))  *   (    "   |    |   |    |   .             ',
     '*  `~~~/^\~~~~~~~~~~~~~/^\~~~` (      )      . `____|   `____|        *        ']
-]
+],
+
+[['''                    _ ''',
+'''                  /`6\__ ''',
+'''           ,_     \ _.==' ''',
+'''          `) `""""`~~\ ''',
+'''        -~ \  '~-.   / ~-'''],
+['''         ~- `~-====-' ~_ ~- ''',
+'''       ~ - ~ ~- ~ - ~ - '''],[]]
 
 ]

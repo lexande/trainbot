@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import irc.client
 import irc.bot
 import sys
 import time
@@ -8,6 +9,8 @@ import trainbotbrain
 from trainbotpass import password, ownernick
 
 channel = sys.argv[1]
+
+irc.client.ServerConnection.buffer_class.errors = 'replace'
 
 class reloader(irc.bot.SingleServerIRCBot):
     def __init__(self, serverspec, nick):
