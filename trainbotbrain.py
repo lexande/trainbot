@@ -142,7 +142,7 @@ class tra1nbot(trainbot):
                 for line in asciis.asciis[i][0]:
                     c.privmsg(event.target, line)
                 c.privmsg("tra2n", " ".join([str(i), event.target]))
-	        if re.match("CAAAAA+R", event.arguments[0]):
+	        if re.search("CAAAAA+R", event.arguments[0]):
 	            c.kick(event.target, event.source.nick, "fuck cars")
                 return
         if re.match('Good (.*), programs.', event.arguments[0]) and event.source.nick == ownernick:
