@@ -2,7 +2,7 @@
 
 asciipatterns = ["CALTRAAAAA+IN", "TRAAAAA+IN", "TERRAAAAA+IN", "PLAAAAA+NE", "BOAAAAA+T", 
 "BUUUUU+S", "BRAAAAA+IN", "SPAAAAA+IN", "YO","BIIIII+KE","CAAAAA+R","MAAAAA+INE","PLANTAAAAA+IN",
-"PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "[Ii] propose a railway!?"]
+"PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "[Ii] propose"]
 
 asciis=[
 [['           __________________________________________', 
