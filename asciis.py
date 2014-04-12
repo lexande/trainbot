@@ -2,7 +2,7 @@
 
 asciipatterns = ["CALTRAAAAA+IN", "TRAAAAA+IN", "TERRAAAAA+IN", "PLAAAAA+NE", "BOAAAAA+T", 
 "BUUUUU+S", "BRAAAAA+IN", "SPAAAAA+IN", "YO","BIIIII+KE","CAAAAA+R","MAAAAA+INE","PLANTAAAAA+IN",
-"PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "BAAAAA+RT",
+"PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "BAAAAA+RT", "TYYYYY+PES",
 "[Ii] propose"] # please keep this last
 
 asciis=[
@@ -181,6 +181,17 @@ asciis=[
   ' \___________________________________________________________'],
  ['        |_______|    |  o  |____________|  o  |     |______|',
   '                      \___/              \___/']],
+
+[['''                                                                     ''',
+  '''       x : σ ∈ Γ                  Γ, x : σ ⊢ e : τ                   ''',
+  '''       ───────── (T-VAR)     ────────────────────────── (T-ABS)      ''',
+  '''       Γ ⊢ x : σ             Γ ⊢ (λx : σ . e) : (σ → τ)              ''',
+  '''                                                                     '''],
+ ['''                                                                     ''',
+  '''               Γ ⊢ e₁ : σ → τ   Γ ⊢ e₂ : σ                           ''',
+  '''               ─────────────────────────── (T-APP)                   ''',
+  '''                      Γ ⊢ e₁ e₂ : τ                                  ''',
+  '''                                                                     '''], []],
 
 [["Splendid!"],["Splendid!"],[]]
 
