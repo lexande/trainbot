@@ -6,7 +6,7 @@ asciipatterns = ["CALTRAAAAA+IN", "TRAAAAA+IN", "TERRAAAAA+IN", "PLAAAAA+NE", "B
 "PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "BAAAAA+RT", "TYYYYY+PES", "TGVVVV+",
 "[Ii] propose"] # please keep this last
 
-fn load(filename):
+def load(filename):
    lines = open(filename).readlines()
    third = len(lines)/3
    return [ lines[0:third], lines[third:2*third], lines[2*third:] ]
