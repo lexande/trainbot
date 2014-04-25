@@ -3,8 +3,13 @@
 
 asciipatterns = ["CALTRAAAAA+IN", "TRAAAAA+IN", "TERRAAAAA+IN", "PLAAAAA+NE", "BOAAAAA+T", 
 "BUUUUU+S", "BRAAAAA+IN", "SPAAAAA+IN", "YO","BIIIII+KE","CAAAAA+R","MAAAAA+INE","PLANTAAAAA+IN",
-"PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "BAAAAA+RT", "TYYYYY+PES",
+"PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "BAAAAA+RT", "TYYYYY+PES", "TGVVVV+",
 "[Ii] propose"] # please keep this last
+
+fn load(filename):
+   lines = open(filename).readlines()
+   third = len(lines)/3
+   return [ lines[0:third], lines[third:2*third], lines[2*third:] ]
 
 asciis=[
 [['           __________________________________________', 
@@ -193,6 +198,8 @@ asciis=[
   u'''            ─────────────────────────── (T-APP)             ''',
   u'''                   Γ ⊢ e₁ e₂ : τ                            ''',
   u'''                                                            '''], []],
+ 
+ load("asciis/tgv.txt"),
 
 [["Splendid!"],["Splendid!"],[]]
 
