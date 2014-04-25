@@ -7,7 +7,7 @@ asciipatterns = ["CALTRAAAAA+IN", "TRAAAAA+IN", "TERRAAAAA+IN", "PLAAAAA+NE", "B
 "[Ii] propose"] # please keep this last
 
 def load(filename):
-   lines = open(filename).readlines()
+   lines = [x.rstrip() for x in open(filename).readlines()]
    third = len(lines)/3
    return [ lines[0:third], lines[third:2*third], lines[2*third:] ]
 
