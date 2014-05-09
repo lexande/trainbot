@@ -3,7 +3,7 @@
 
 asciipatterns = ["CALTRAAAAA+IN", "TRAAAAA+IN", "TERRAAAAA+IN", "PLAAAAA+NE", "BOAAAAA+T", 
 "BUUUUU+S", "BRAAAAA+IN", "SPAAAAA+IN", "YO","BIIIII+KE","CAAAAA+R","MAAAAA+INE","PLANTAAAAA+IN",
-"PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "BAAAAA+RT", "TYYYYY+PES", "TGVVVV+",
+"PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "BAAAAA+RT", "TYYYYY+PES", "HYPERLOO+P", "TGVVVV+",
 "[Ii] propose"] # please keep this last
 
 def load(filename):
@@ -198,7 +198,9 @@ asciis=[
   u'''            ─────────────────────────── (T-APP)             ''',
   u'''                   Γ ⊢ e₁ e₂ : τ                            ''',
   u'''                                                            '''], []],
- 
+
+[['fuck you'], [], []],  
+
  load("asciis/tgv.txt"),
 
 [["Splendid!"],["Splendid!"],[]]
