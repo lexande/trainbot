@@ -144,6 +144,8 @@ class tra1nbot(trainbot):
                 c.privmsg("tra2n", " ".join([str(i), event.target]))
 	        if re.search("CAAAAA+R", event.arguments[0]):
 	            c.kick(event.target, event.source.nick, "fuck cars")
+		if re.search("HYPERLOO+P", event.arguments[0]):
+		    c.kick(event.target, event.source.nick, "fuck hyperloop")
                 return
         if re.match('Good (.*), programs.', event.arguments[0]) and event.source.nick == ownernick:
             self.dontflood()
