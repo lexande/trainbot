@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 asciipatterns = ["CALTRAAAAA+IN", "TRAAAAA+IN", "TERRAAAAA+IN", "PLAAAAA+NE", "BOAAAAA+T", 
-"BUUUUU+S", "BRAAAAA+IN", "SPAAAAA+IN", "YO","BIIIII+KE","CAAAAA+R","MAAAAA+INE","PLANTAAAAA+IN",
+"BUUUUU+S", "BRAAAAA+IN", "SPAAAAA+IN", "(?<!\w)Y+O+(?!\w)","BIIIII+KE","CAAAAA+R","MAAAAA+INE","PLANTAAAAA+IN",
 "PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "BAAAAA+RT", "TYYYYY+PES", "HYPERLOO+P", "TGVVVV+", "RAILYAAA+RD",
 "[Ii] propose"] # please keep this last
 
