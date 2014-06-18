@@ -3,7 +3,7 @@
 
 asciipatterns = ["CALTRAAAAA+IN", "TRAAAAA+IN", "TERRAAAAA+IN", "PLAAAAA+NE", "BOAAAAA+T", 
 "BUUUUU+S", "BRAAAAA+IN", "SPAAAAA+IN", "(?<!\w)Y+O+(?!\w)","BIIIII+KE","CAAAAA+R","MAAAAA+INE","PLANTAAAAA+IN",
-"PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "BAAAAA+RT", "TYYYYY+PES", "HYPERLOO+P", "TGVVVV+", "RAILYAAA+RD",
+"PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "BAAAAA+RT", "TYYYYY+PES", "HYPERLOO+P", "TGVVVV+", "RAILYAAA+RD", "RAILCAAA+R",
 "[Ii] propose"] # please keep this last
 
 def load(filename):
@@ -204,6 +204,8 @@ asciis=[
  load("asciis/tgv.txt"),
 
  load("asciis/railyard.txt"),
+
+ load("asciis/railcar.txt"),
 
 [["Splendid!"],["Splendid!"],[]]
 
