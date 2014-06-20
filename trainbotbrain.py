@@ -142,10 +142,12 @@ class tra1nbot(trainbot):
                 for line in asciis.asciis[i][0]:
                     c.privmsg(event.target, line)
                 c.privmsg("tra2n", " ".join([str(i), event.target]))
-	        if re.search("CAAAAA+R", event.arguments[0]):
-	            c.kick(event.target, event.source.nick, "fuck cars")
-		if re.search("HYPERLOO+P", event.arguments[0]):
-		    c.kick(event.target, event.source.nick, "fuck hyperloop")
+                return
+        for i in range(0, len(asciis.evilpatterns)):
+            if re.search(asciis.evilpatterns[i][0], event.arguments[0]):
+                self.dontflood()
+                c.privmsg(event.target, "fuck you")
+	        c.kick(event.target, event.source.nick, "fuck %s" % (asciis.evilpatterns[i][1]))
                 return
         if re.match('Good (.*), programs.', event.arguments[0]) and event.source.nick == ownernick:
             self.dontflood()
