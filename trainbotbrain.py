@@ -136,18 +136,18 @@ class tra1nbot(trainbot):
         return "%02i:%02i" % (hour, minute)
 
     def on_pubmsg(self, c, event):
+        for i in range(0, len(asciis.evilpatterns)):
+            if re.search(asciis.evilpatterns[i][0], event.arguments[0]):
+                self.dontflood()
+                c.privmsg(event.target, "fuck you")
+                c.kick(event.target, event.source.nick, "fuck %s" % (asciis.evilpatterns[i][1]))
+                return
         for i in range(0, len(asciis.asciipatterns)):
             if re.search(asciis.asciipatterns[i], event.arguments[0]):
                 self.dontflood()
                 for line in asciis.asciis[i][0]:
                     c.privmsg(event.target, line)
                 c.privmsg("tra2n", " ".join([str(i), event.target]))
-                return
-        for i in range(0, len(asciis.evilpatterns)):
-            if re.search(asciis.evilpatterns[i][0], event.arguments[0]):
-                self.dontflood()
-                c.privmsg(event.target, "fuck you")
-	        c.kick(event.target, event.source.nick, "fuck %s" % (asciis.evilpatterns[i][1]))
                 return
         if re.match('Good (.*), programs.', event.arguments[0]) and event.source.nick == ownernick:
             self.dontflood()

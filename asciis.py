@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 evilpatterns = [
-    ["(?<!BIKE)CAAAAA+R", "cars"],
+    ["(?<!BIKE|RAIL)CAAAAA+R", "cars"],
     ["HYPERLOO+P", "hyperloop"],
 ]
 
