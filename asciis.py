@@ -10,6 +10,7 @@ asciipatterns = ["CALTRAAAAA+IN", "TRAAAAA+IN", "TERRAAAAA+IN", "PLAAAAA+NE", "B
 "BUUUUU+S", "BRAAAAA+IN", "SPAAAAA+IN", "(?<!\w)Y+O+(?!\w)","BIIIII+KE","MAAAAA+INE","PLANTAAAAA+IN",
 "PARAAAAA+DE","DUUUUU+CK", "BRIIIII+DGE", "BAAAAA+RT", "TYYYYY+PES", "TGVVVV+", "RAILYAAA+RD", "RAILCAAA+R",
 "STREETCAAAAA+R",
+"MUUUUU+NI",
 "[Ii] propose"] # please keep this last
 
 def load(filename):
@@ -210,6 +211,12 @@ asciis=[
  load("asciis/railcar.txt"),
 
  load("asciis/streetcar.txt"),
+
+[['          ____________________', 
+'         / {)][o>][_o][c_][o][|', 
+'        |-==)|     MUNI       |', 
+'        &_____________________L', 
+'          ( )            ( )'], [], []], 
 
 [["Splendid!"],["Splendid!"],[]]
 
