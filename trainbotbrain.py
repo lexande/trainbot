@@ -135,6 +135,27 @@ class tra1nbot(trainbot):
             hour += 12
         return "%02i:%02i" % (hour, minute)
 
+    def originstory(self, c, source, channel, message):
+        if re.match("!origin *$", message):
+	    name = source.lower()
+	else:
+	    qmatch = re.match("!origin (.*)", message)
+	    name = qmatch.group(1).rstrip().lower()
+	if not re.match("^[a-zA-Z0-9_]*$", name):
+            return
+        try:
+	    f = open('origins/' + name + '.txt','r')
+            c.privmsg(channel, ''.join([name, "'", 's origin story: "', f.readline().rstrip(), '"']))
+	    f.close()
+	except IOError:
+	    return
+
+    def setorigin(self, c, source, message):
+        match = re.match("!setorigin (.*)", message)
+	f = open('origins/' + source.lower() + '.txt','w')
+	f.write(match.group(1).rstrip())
+	f.close()
+
     def on_pubmsg(self, c, event):
         for i in range(0, len(asciis.evilpatterns)):
             if re.search(asciis.evilpatterns[i][0], event.arguments[0]):
@@ -159,6 +180,12 @@ class tra1nbot(trainbot):
         if re.match("!amtrak", event.arguments[0]):
             self.dontflood()
             self.amsearch(c, event.source.nick, event.target, event.arguments[0])
+	if re.match("!origin", event.arguments[0]):
+	    self.dontflood()
+	    self.originstory(c, event.source.nick, event.target, event.arguments[0])
+	if re.match("!setorigin", event.arguments[0]):
+	    self.setorigin(c, event.source.nick, event.arguments[0])
+
     def on_privmsg(self, c, event):
         message = event.arguments[0].split(" ")
 #	print message[0]
