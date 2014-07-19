@@ -151,6 +151,8 @@ class tra1nbot(trainbot):
 	    return
 
     def setorigin(self, c, source, message):
+        if not re.match("^[a-zA-Z0-9_]*$", source):
+            return
         match = re.match("!setorigin (.*)", message)
 	f = open('origins/' + source.lower() + '.txt','w')
 	f.write(match.group(1).rstrip())
