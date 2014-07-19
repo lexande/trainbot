@@ -137,14 +137,14 @@ class tra1nbot(trainbot):
 
     def originstory(self, c, source, channel, message):
         if re.match("!origin *$", message):
-	    name = source.lower()
+	    name = source
 	else:
 	    qmatch = re.match("!origin (.*)", message)
-	    name = qmatch.group(1).rstrip().lower()
+	    name = qmatch.group(1).rstrip()
 	if not re.match("^[a-zA-Z0-9_]*$", name):
             return
         try:
-	    f = open('origins/' + name + '.txt','r')
+	    f = open('origins/' + name.lower() + '.txt','r')
             c.privmsg(channel, ''.join([name, "'", 's origin story: "', f.readline().rstrip(), '"']))
 	    f.close()
 	except IOError:
