@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import codecs
 import irc.bot
 import re
 import mechanize
@@ -144,7 +145,7 @@ class tra1nbot(trainbot):
 	if not re.match("^[a-zA-Z0-9_]*$", name):
             return
         try:
-	    f = open('origins/' + name.lower() + '.txt','r')
+	    f = codecs.open('origins/' + name.lower() + '.txt','r','utf-8')
             c.privmsg(channel, ''.join([name, "'", 's origin story: "', f.readline().rstrip(), '"']))
 	    f.close()
 	except IOError:
@@ -154,7 +155,7 @@ class tra1nbot(trainbot):
         if not re.match("^[a-zA-Z0-9_]*$", source):
             return
         match = re.match("!setorigin (.*)", message)
-	f = open('origins/' + source.lower() + '.txt','w')
+	f = codecs.open('origins/' + source.lower() + '.txt','w','utf-8')
 	f.write(match.group(1).rstrip())
 	f.close()
 
