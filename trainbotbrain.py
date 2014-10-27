@@ -161,7 +161,8 @@ class tra1nbot(trainbot):
 
     def on_pubmsg(self, c, event):
         for i in range(0, len(asciis.evilpatterns)):
-            if re.search(asciis.evilpatterns[i][0], event.arguments[0]):
+            if (re.search(asciis.evilpatterns[i][0], event.arguments[0]) or
+                    re.search(asciis.evilpatterns[i][0], event.source.nick)):
                 self.dontflood()
                 c.privmsg(event.target, "fuck you")
                 c.kick(event.target, event.source.nick, "fuck %s" % (asciis.evilpatterns[i][1]))
