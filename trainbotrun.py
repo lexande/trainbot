@@ -1,3 +1,4 @@
+# by lexande - BSD licensed
 #!/usr/bin/env python
 
 import irc.client

@@ -1,3 +1,4 @@
+# by lexande and contributors - BSD licensed
 #!/usr/bin/env python
 
 import codecs
