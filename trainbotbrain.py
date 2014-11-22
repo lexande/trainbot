@@ -188,7 +188,7 @@ class tra1nbot(trainbot):
 	if re.match("!origin", event.arguments[0]):
 	    self.dontflood()
 	    self.originstory(c, event.source.nick, event.target, event.arguments[0])
-	if re.match("!setorigin", event.arguments[0]):
+	if re.match("!setorigin ", event.arguments[0]):
 	    self.setorigin(c, event.source.nick, event.arguments[0])
 
     def on_privmsg(self, c, event):
