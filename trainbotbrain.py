@@ -150,6 +150,7 @@ class tra1nbot(trainbot):
             c.privmsg(channel, ''.join([name, "'", 's origin story: "', f.readline().rstrip(), '"']))
 	    f.close()
 	except IOError:
+            c.privmsg(channel, name + " has not defined an origin story.  They are encouraged to do so using !setorigin.")
 	    return
 
     def setorigin(self, c, source, message):
