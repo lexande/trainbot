@@ -1,5 +1,5 @@
 # by lexande and contributors - BSD licensed
-#!/usr/bin/env python
+# !/usr/bin/env python
 
 import codecs
 import irc.bot
@@ -9,6 +9,9 @@ import time
 import urllib
 import asciis
 from trainbotpass import ownernick
+
+botnicks = ["tra1n", "tra2n", "tra3n"]
+
 
 class trainbot(object):
     def __init__(self):
@@ -21,9 +24,11 @@ class trainbot(object):
         else:
             self.lastdraw = time.time()
 
-    def on_pubmsg(self, c, event): pass
+    def on_pubmsg(self, c, event):
+        pass
 
-    def on_privmsg(self, c, event): pass
+    def on_privmsg(self, c, event):
+        pass
 
 
 class tra1nbot(trainbot):
@@ -43,11 +48,16 @@ class tra1nbot(trainbot):
             c.privmsg(channel, "no trains found :(")
 
     def mbsearch(self, c, name, channel, query):
+
         match = re.match("!megabus (.*) to (.*) on (.*)", query)
+        print (match.group(1), match.group(2), match.group(3))
+
         try:
             trips = self.mbscrape(match.group(1), match.group(2), match.group(3))
-        except:
-            print "megabus oops"
+
+        except Exception as inst:
+            c.privmsg(channel, "Exception: " + str(inst))
+            print inst
             return
         if trips:
             c.privmsg(channel, "depart    arrive    price")
@@ -62,7 +72,7 @@ class tra1nbot(trainbot):
         url = "http://tickets.amtrak.com/itd/amtrak/FareFinder?"
         get_options = {'_tripType': 'OneWay',
                        '_origin': re.sub(" ", "%20", orig),
-                       '_depmonthyear': "-".join((splitdate[0],splitdate[1])),
+                       '_depmonthyear': "-".join((splitdate[0], splitdate[1])),
                        '_depday': splitdate[2],
                        '_destination': re.sub(" ", "%20", dest),
                        '_adults': '1'}
@@ -95,37 +105,61 @@ class tra1nbot(trainbot):
         return trips
 
     def mbscrape(self, orig, dest, date):
+        print "0"
+        orig = orig.lower()
+        dest = dest.lower()
         splitdate = date.split("-")
         datestring = "%s/%s/%s" % (splitdate[1], splitdate[2], splitdate[0])
+        print "1"
         br = mechanize.Browser()
-        br.set_handle_robots(False)     # no robots
-        br.set_handle_refresh(False)    # can sometimes hang without this
+        br.set_handle_robots(False)  # no robots
+        br.set_handle_refresh(False)  # can sometimes hang without this
         br.addheaders = [('User-agent', 'Lynx/2.8.7pre.5 libwww-FM/2.14 SSL-MM/1.4.1')]
         br.open("http://mobile.usablenet.com/mt/us.megabus.com/Default.aspx?un_jtt_v_search=on")
-        br.select_form("ctl01")
-        br.set_value_by_label([orig], 'JourneyPlanner$ddlLeavingFrom')
-        br.submit('un_jtt_searchform_leavingFrom')
-        br.select_form("ctl01")
-        br.set_value_by_label([dest], 'JourneyPlanner$ddlTravellingTo')
-        br.submit('un_jtt_searchform_travellingTo')
-        br.select_form("ctl01")
-        br['JourneyPlanner$txtOutboundDate'] = datestring
-        response = br.submit('un_jtt_searchformSubmit')
+        print "2"
+        br.form = list(br.forms())[0]
+        control = br.form.find_control("JourneyPlanner$ddlOrigin")
+        keys = []
+        values = []
+        for item in control.items:
+            keys.append(item.name)
+            for label in item.get_labels():
+                values.append(str(label.text)[:-4].lower())
+        cities = dict(zip(values, keys))
+        print "3"
+        print cities[dest]
+        for control in br.form.controls:
+            if control.name == "JourneyPlanner$ddlOrigin":
+                control.value = [cities[orig]]
+                br.submit('un_jtt_searchform_origin')
+        br.form = list(br.forms())[0]
+        for control in br.form.controls:
+            if control.name == "JourneyPlanner$ddlDest":
+                control.value = [cities[dest]]
+                br.submit('un_jtt_searchform_destination')
+        br.form = list(br.forms())[0]
+        for control in br.form.controls:
+            if control.name == "JourneyPlanner$txtOutboundDate":
+                control.value = datestring
+                response = br.submit('un_jtt_searchformSubmit')
         html = response.read()
         br.close()
-        lines = re.split("Select .nbsp.", html)
+        lines = re.split("Details", html)
         trips = []
+        print len(lines)
         for line in lines:
             result = ""
-            match = re.search("Departs (..?):(..).nbsp.(.M)", line)
+            match = re.search("Departs</B> (..?):(..).nbsp.(.M)", line)
             if match:
                 result += "%s     " % self.timeformat(int(match.group(1)), int(match.group(2)), match.group(3))
-            match = re.search("Arrives (..?):(..).nbsp.(.M)", line)
+                print result
+            match = re.search("Arrives</B> (..?):(..).nbsp.(.M)", line)
             if match:
                 result += "%s     " % self.timeformat(int(match.group(1)), int(match.group(2)), match.group(3))
-            match = re.search("Price .*\$([0-9]*).00", line)
+            match = re.search("Price.+?\$([0-9]*).00", line)
             if match:
                 result += "$%3i.50" % int(match.groups(1)[0])
+                print result
             if result != "":
                 trips.append(result)
         return trips
@@ -139,27 +173,28 @@ class tra1nbot(trainbot):
 
     def originstory(self, c, source, channel, message):
         if re.match("!origin *$", message):
-	    name = source
-	else:
-	    qmatch = re.match("!origin (.*)", message)
-	    name = qmatch.group(1).rstrip()
-	if not re.match("^[a-zA-Z0-9_]*$", name):
+            name = source
+        else:
+            qmatch = re.match("!origin (.*)", message)
+            name = qmatch.group(1).rstrip()
+        if not re.match("^[a-zA-Z0-9_]*$", name):
             return
         try:
-	    f = codecs.open('origins/' + name.lower() + '.txt','r','utf-8')
+            f = codecs.open('origins/' + name.lower() + '.txt', 'r', 'utf-8')
             c.privmsg(channel, ''.join([name, "'", 's origin story: "', f.readline().rstrip(), '"']))
-	    f.close()
-	except IOError:
-            c.privmsg(channel, name + " has not defined an origin story.  They are encouraged to do so using !setorigin.")
-	    return
+            f.close()
+        except IOError:
+            c.privmsg(channel,
+                      name + " has not defined an origin story.  They are encouraged to do so using !setorigin.")
+            return
 
     def setorigin(self, c, source, message):
         if not re.match("^[a-zA-Z0-9_]*$", source):
             return
         match = re.match("!setorigin (.*)", message)
-	f = codecs.open('origins/' + source.lower() + '.txt','w','utf-8')
-	f.write(match.group(1).rstrip())
-	f.close()
+        f = codecs.open('origins/' + source.lower() + '.txt', 'w', 'utf-8')
+        f.write(match.group(1).rstrip())
+        f.close()
 
     def on_pubmsg(self, c, event):
         for i in range(0, len(asciis.evilpatterns)):
@@ -174,7 +209,7 @@ class tra1nbot(trainbot):
                 self.dontflood()
                 for line in asciis.asciis[i][0]:
                     c.privmsg(event.target, line)
-                c.privmsg("tra2n", " ".join([str(i), event.target]))
+                c.privmsg(botnicks[1], " ".join([str(i), event.target]))
                 return
         if re.match('Good (.*), programs.', event.arguments[0]) and event.source.nick == ownernick:
             self.dontflood()
@@ -186,48 +221,49 @@ class tra1nbot(trainbot):
         if re.match("!amtrak", event.arguments[0]):
             self.dontflood()
             self.amsearch(c, event.source.nick, event.target, event.arguments[0])
-	if re.match("!origin", event.arguments[0]):
-	    self.dontflood()
-	    self.originstory(c, event.source.nick, event.target, event.arguments[0])
-	if re.match("!setorigin ", event.arguments[0]):
-	    self.setorigin(c, event.source.nick, event.arguments[0])
+        if re.match("!origin", event.arguments[0]):
+            self.dontflood()
+            self.originstory(c, event.source.nick, event.target, event.arguments[0])
+        if re.match("!setorigin ", event.arguments[0]):
+            self.setorigin(c, event.source.nick, event.arguments[0])
 
     def on_privmsg(self, c, event):
         message = event.arguments[0].split(" ")
-#	print message[0]
+        print message[0]
         if event.source.nick == ownernick and message[0] == "Join":
             c.join(message[1])
-            c.privmsg("tra2n", event.arguments[0])
+            c.privmsg(botnicks[1], event.arguments[0])
         elif event.source.nick == ownernick and message[0] == "Part":
-            c.part(message[1])                    
-            c.privmsg("tra2n", event.arguments[0])
+            c.part(message[1])
+            c.privmsg(botnicks[1], event.arguments[0])
 
 
 
 class tra2nbot(trainbot):
     def on_privmsg(self, c, event):
         message = event.arguments[0].split(" ")
-#	print message[0]
-        if event.source.nick == "tra1n":
-	    if message[0] == "Join":
-	        c.join(message[1])
+        print message[0]
+        if event.source.nick == botnicks[0]:
+            if message[0] == "Join":
+                c.join(message[1])
             elif message[0] == "Part":
                 c.part(message[1])
-	    else:
+            else:
                 for line in asciis.asciis[int(message[0])][1]:
                     c.privmsg(message[1], line)
-            c.privmsg("tra3n", event.arguments[0])
+            c.privmsg(botnicks[2], event.arguments[0])
+
 
 class tra3nbot(trainbot):
     def on_privmsg(self, c, event):
         message = event.arguments[0].split(" ")
-        if event.source.nick == "tra2n":
+        if event.source.nick == botnicks[1]:
             if message[0] == "Join":
                 c.join(message[1])
             elif message[0] == "Part":
-                c.part(message[1]) 
+                c.part(message[1])
             else:
-        	for line in asciis.asciis[int(message[0])][2]:
+                for line in asciis.asciis[int(message[0])][2]:
                     c.privmsg(message[1], line)
 
 
