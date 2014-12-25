@@ -36,8 +36,9 @@ class tra1nbot(trainbot):
         match = re.match("!amtrak (.*) to (.*) on (.*)", query)
         try:
             trips = self.amscrape(match.group(1), match.group(2), match.group(3))
-        except:
-            print "amtrak oops"
+        except Exception as inst:
+            c.privmsg(channel, "amtrak search failed")
+            print "amtrak oops: " + str(inst)
             return
         if trips:
             c.privmsg(channel, "depart    duration     arrive     price")
@@ -55,6 +56,7 @@ class tra1nbot(trainbot):
             trips = self.mbscrape(match.group(1), match.group(2), match.group(3))
 
         except Exception as inst:
+            c.privmsg(channel, "megabus search failed")
             print "megabus oops: " + str(inst)
             return
         if trips:
