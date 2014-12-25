@@ -1,5 +1,5 @@
 # by lexande and contributors - BSD licensed
-# !/usr/bin/env python
+#!/usr/bin/env python
 
 import codecs
 import irc.bot
@@ -50,14 +50,12 @@ class tra1nbot(trainbot):
     def mbsearch(self, c, name, channel, query):
 
         match = re.match("!megabus (.*) to (.*) on (.*)", query)
-        print (match.group(1), match.group(2), match.group(3))
 
         try:
             trips = self.mbscrape(match.group(1), match.group(2), match.group(3))
 
         except Exception as inst:
-            c.privmsg(channel, "Exception: " + str(inst))
-            print inst
+            print "megabus oops: " + str(inst)
             return
         if trips:
             c.privmsg(channel, "depart    arrive    price")
@@ -105,18 +103,15 @@ class tra1nbot(trainbot):
         return trips
 
     def mbscrape(self, orig, dest, date):
-        print "0"
         orig = orig.lower()
         dest = dest.lower()
         splitdate = date.split("-")
         datestring = "%s/%s/%s" % (splitdate[1], splitdate[2], splitdate[0])
-        print "1"
         br = mechanize.Browser()
         br.set_handle_robots(False)  # no robots
         br.set_handle_refresh(False)  # can sometimes hang without this
         br.addheaders = [('User-agent', 'Lynx/2.8.7pre.5 libwww-FM/2.14 SSL-MM/1.4.1')]
         br.open("http://mobile.usablenet.com/mt/us.megabus.com/Default.aspx?un_jtt_v_search=on")
-        print "2"
         br.form = list(br.forms())[0]
         control = br.form.find_control("JourneyPlanner$ddlOrigin")
         keys = []
@@ -126,8 +121,6 @@ class tra1nbot(trainbot):
             for label in item.get_labels():
                 values.append(str(label.text)[:-4].lower())
         cities = dict(zip(values, keys))
-        print "3"
-        print cities[dest]
         for control in br.form.controls:
             if control.name == "JourneyPlanner$ddlOrigin":
                 control.value = [cities[orig]]
@@ -146,20 +139,17 @@ class tra1nbot(trainbot):
         br.close()
         lines = re.split("Details", html)
         trips = []
-        print len(lines)
         for line in lines:
             result = ""
             match = re.search("Departs</B> (..?):(..).nbsp.(.M)", line)
             if match:
                 result += "%s     " % self.timeformat(int(match.group(1)), int(match.group(2)), match.group(3))
-                print result
             match = re.search("Arrives</B> (..?):(..).nbsp.(.M)", line)
             if match:
                 result += "%s     " % self.timeformat(int(match.group(1)), int(match.group(2)), match.group(3))
             match = re.search("Price.+?\$([0-9]*).00", line)
             if match:
                 result += "$%3i.50" % int(match.groups(1)[0])
-                print result
             if result != "":
                 trips.append(result)
         return trips
@@ -229,7 +219,6 @@ class tra1nbot(trainbot):
 
     def on_privmsg(self, c, event):
         message = event.arguments[0].split(" ")
-        print message[0]
         if event.source.nick == ownernick and message[0] == "Join":
             c.join(message[1])
             c.privmsg(botnicks[1], event.arguments[0])
@@ -238,11 +227,9 @@ class tra1nbot(trainbot):
             c.privmsg(botnicks[1], event.arguments[0])
 
 
-
 class tra2nbot(trainbot):
     def on_privmsg(self, c, event):
         message = event.arguments[0].split(" ")
-        print message[0]
         if event.source.nick == botnicks[0]:
             if message[0] == "Join":
                 c.join(message[1])
