@@ -14,9 +14,10 @@ channel = sys.argv[1]
 irc.client.ServerConnection.buffer_class.errors = 'replace'
 
 class reloader(irc.bot.SingleServerIRCBot):
-    def __init__(self, serverspec, nick):
+    def __init__(self, serverspec, nick, bots):
         irc.bot.SingleServerIRCBot.__init__(self, serverspec, nick, nick)
         self.nick = nick
+        self.bots = bots
         self.botclassname = nick + "bot"
         self.brain = getattr(trainbotbrain, self.botclassname)()
         self.broken = False
@@ -41,6 +42,12 @@ class reloader(irc.bot.SingleServerIRCBot):
                 self.broken = False
             except Exception as thisbroke:
                 self.errorhandle(thisbroke, c)
+	elif event.source.nick == ownernick and event.arguments[0].split(' ')[0] == "reset":
+            nicktoreset = event.arguments[0].split(' ')[1]
+            self.bots[nicktoreset].stop_bot()
+            newbot = run_trainbot("irc.freenode.net", 6667, nicktoreset, bots)
+            self.bots[nicktoreset] = newbot
+            newbot.start()
         elif not self.broken:
             try:
                 self.brain.on_privmsg(c, event)
@@ -54,13 +61,14 @@ class reloader(irc.bot.SingleServerIRCBot):
 
 
 class run_trainbot(Thread):
-    def __init__(self, server, port, nick):
+    def __init__(self, server, port, nick, bots):
         self.serverspec = [(server, port)]
         self.nick = nick
+        self.bots = bots
         Thread.__init__(self)
         
     def run(self):
-        self.bot = reloader(self.serverspec, self.nick)
+        self.bot = reloader(self.serverspec, self.nick, self.bots)
         self.bot.start()
         
     def stop_bot(self):
@@ -68,9 +76,11 @@ class run_trainbot(Thread):
         self.bot.connection.close()
 
 botnicks = ["tra1n", "tra2n", "tra3n"]
+bots = {}
 for nick in botnicks:
-    bot = run_trainbot("irc.freenode.net", 6667, nick)
+    bot = run_trainbot("irc.freenode.net", 6667, nick, bots)
     bot.daemon = True
+    bots[nick] = bot
     bot.start()
 
 while True:
