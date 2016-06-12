@@ -28,7 +28,7 @@ asciipatterns = ["CALTRAAAAA+IN",
 "RAILYAAAAA+RD",
 "RAILCAAAAA+R",
 "STREETCAAAAA+R",
-"CTAAAA+",
+"CTAAAAA+",
 "MUUUUU+NI",
 "[Ii] propose"] # please keep this last
 
