@@ -29,6 +29,7 @@ asciipatterns = ["CALTRAAAAA+IN",
 "RAILCAAAAA+R",
 "STREETCAAAAA+R",
 "CTAAAAA+",
+"METRAAAAA+",
 "MUUUUU+NI",
 "[Ii] propose"] # please keep this last
 
@@ -245,6 +246,8 @@ asciis=[
  load("asciis/streetcar.txt"),
 
  load('asciis/cta.txt'),
+
+ load('asciis/metra.txt'),
 
 [['          ____________________', 
 '         / {)][o>][_o][c_][o][|', 
