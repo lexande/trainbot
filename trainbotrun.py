@@ -8,7 +8,7 @@ import time
 from importlib import reload
 from threading import Thread
 import trainbotbrain
-from trainbotpass import password, ownernick
+from trainbotpass import password, ownernick, botnicks
 
 channel = sys.argv[1]
 
@@ -19,7 +19,7 @@ class reloader(irc.bot.SingleServerIRCBot):
         irc.bot.SingleServerIRCBot.__init__(self, serverspec, nick, nick)
         self.nick = nick
         self.bots = bots
-        self.botclassname = nick + "bot"
+        self.botclassname = "tra"+str(botnicks.index(nick)+1)+"nbot"
         self.brain = getattr(trainbotbrain, self.botclassname)()
         self.broken = False
  
@@ -75,7 +75,6 @@ class run_trainbot(Thread):
         self.bot.disconnect()
         self.bot.connection.close()
 
-botnicks = ["tra1n", "tra2n", "tra3n"]
 bots = {}
 for nick in botnicks:
     bot = run_trainbot("irc.libera.chat", 6667, nick, bots)

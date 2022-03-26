@@ -8,11 +8,8 @@ import mechanize
 import time
 import urllib
 import asciis
-from trainbotpass import ownernick
-
-botnicks = ["tra1n", "tra2n", "tra3n"]
-
 from importlib import reload
+from trainbotpass import ownernick, botnicks
 
 class trainbot(object):
     def __init__(self):
