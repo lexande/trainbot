@@ -78,7 +78,7 @@ class run_trainbot(Thread):
 botnicks = ["tra1n", "tra2n", "tra3n"]
 bots = {}
 for nick in botnicks:
-    bot = run_trainbot("irc.freenode.net", 6667, nick, bots)
+    bot = run_trainbot("irc.libera.chat", 6667, nick, bots)
     bot.daemon = True
     bots[nick] = bot
     bot.start()
