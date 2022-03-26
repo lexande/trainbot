@@ -12,6 +12,7 @@ from trainbotpass import ownernick
 
 botnicks = ["tra1n", "tra2n", "tra3n"]
 
+from importlib import reload
 
 class trainbot(object):
     def __init__(self):
@@ -38,7 +39,7 @@ class tra1nbot(trainbot):
             trips = self.amscrape(match.group(1), match.group(2), match.group(3))
         except Exception as inst:
             c.privmsg(channel, "amtrak search failed")
-            print "amtrak oops: " + str(inst)
+            print("amtrak oops: ", str(inst))
             return
         if trips:
             c.privmsg(channel, "depart    duration     arrive     price")
@@ -57,7 +58,7 @@ class tra1nbot(trainbot):
 
         except Exception as inst:
             c.privmsg(channel, "megabus search failed")
-            print "megabus oops: " + str(inst)
+            print("megabus oops: ", str(inst))
             return
         if trips:
             c.privmsg(channel, "depart    arrive    price")

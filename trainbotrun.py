@@ -5,6 +5,7 @@ import irc.client
 import irc.bot
 import sys
 import time
+from importlib import reload
 from threading import Thread
 import trainbotbrain
 from trainbotpass import password, ownernick
@@ -23,7 +24,7 @@ class reloader(irc.bot.SingleServerIRCBot):
         self.broken = False
  
     def on_welcome(self, c, event):
-        print c.nickname , "is now online"
+        print(c.nickname , "is now online")
         c.privmsg("nickserv", "identify " + password)
         c.join(channel)
 
@@ -42,7 +43,7 @@ class reloader(irc.bot.SingleServerIRCBot):
                 self.broken = False
             except Exception as thisbroke:
                 self.errorhandle(thisbroke, c)
-	elif event.source.nick == ownernick and event.arguments[0].split(' ')[0] == "reset":
+        elif event.source.nick == ownernick and event.arguments[0].split(' ')[0] == "reset":
             nicktoreset = event.arguments[0].split(' ')[1]
             self.bots[nicktoreset].stop_bot()
             newbot = run_trainbot("irc.freenode.net", 6667, nicktoreset, bots)
@@ -58,7 +59,6 @@ class reloader(irc.bot.SingleServerIRCBot):
         c.privmsg(ownernick, "halp")
         print ("%s had an error of type %s: %s" % (self.nick, type(thisbroke), thisbroke))
         self.broken = True
-
 
 class run_trainbot(Thread):
     def __init__(self, server, port, nick, bots):
