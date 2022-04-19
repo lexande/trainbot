@@ -42,7 +42,7 @@ def equal_thirds(size):
 
 def load(filename):
    lines = [x.rstrip() for x in open(filename).readlines()]
-   third = equal_thirds(len(lines)/3)
+   third = equal_thirds(len(lines))
    return [ lines[0:third], lines[third:2*third], lines[2*third:] ]
 
 asciis=[
