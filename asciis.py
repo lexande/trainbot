@@ -34,9 +34,15 @@ asciipatterns = ["CALTRAAAAA+IN",
 "MUSHROOOOO+M",
 "[Ii] propose"] # please keep this last
 
+def equal_thirds(size):
+   if(size % 3 == 2):
+      return int(size/3)+1
+   else:
+      return int(size/3)
+
 def load(filename):
-   lines = [x.decode('utf8').rstrip() for x in open(filename).readlines()]
-   third = len(lines)/3
+   lines = [x.rstrip() for x in open(filename).readlines()]
+   third = equal_thirds(len(lines))
    return [ lines[0:third], lines[third:2*third], lines[2*third:] ]
 
 asciis=[
