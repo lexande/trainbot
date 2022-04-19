@@ -3,6 +3,8 @@
 
 import irc.client
 import irc.bot
+import ib3.auth
+import ib3.connection
 import sys
 import time
 from importlib import reload
@@ -14,9 +16,10 @@ channel = sys.argv[1]
 
 irc.client.ServerConnection.buffer_class.errors = 'replace'
 
-class reloader(irc.bot.SingleServerIRCBot):
+class reloader(ib3.auth.SASL, ib3.connection.SSL, irc.bot.SingleServerIRCBot):
     def __init__(self, serverspec, nick, bots):
         irc.bot.SingleServerIRCBot.__init__(self, serverspec, nick, nick)
+        ib3.auth.SASL.__init__(self, serverspec, nick, nick, password, [channel])
         self.nick = nick
         self.bots = bots
         self.botclassname = "tra"+str(botnicks.index(nick)+1)+"nbot"
@@ -25,8 +28,6 @@ class reloader(irc.bot.SingleServerIRCBot):
  
     def on_welcome(self, c, event):
         print(c.nickname , "is now online")
-        c.privmsg("nickserv", "identify " + password)
-        c.join(channel)
 
     def on_pubmsg(self, c, event):
         if not self.broken:
@@ -46,7 +47,7 @@ class reloader(irc.bot.SingleServerIRCBot):
         elif event.source.nick == ownernick and event.arguments[0].split(' ')[0] == "reset":
             nicktoreset = event.arguments[0].split(' ')[1]
             self.bots[nicktoreset].stop_bot()
-            newbot = run_trainbot("irc.freenode.net", 6667, nicktoreset, bots)
+            newbot = run_trainbot("irc.libera.chat", 6697, nicktoreset, bots)
             self.bots[nicktoreset] = newbot
             newbot.start()
         elif not self.broken:
@@ -77,7 +78,7 @@ class run_trainbot(Thread):
 
 bots = {}
 for nick in botnicks:
-    bot = run_trainbot("irc.libera.chat", 6667, nick, bots)
+    bot = run_trainbot("irc.libera.chat", 6697, nick, bots)
     bot.daemon = True
     bots[nick] = bot
     bot.start()
